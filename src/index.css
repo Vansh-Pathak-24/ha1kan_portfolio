@@ -1,0 +1,357 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Geist";
+  src: url("./assets/fonts/Geist/Geist-VariableFont_wght.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Geist Mono";
+  src: url("./assets/fonts/Geist_Mono/GeistMono-VariableFont_wght.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --cell: 80px;
+  --tabs-h: 3.5rem;
+  --page-padding: clamp(1rem, 3vw, 3rem);
+  --content-width: 1400px;
+  --font-sans: "Geist", sans-serif;
+  --font-mono: "Geist Mono", monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  background: #fff;
+  color: #000;
+}
+
+html {
+  overflow-x: clip;
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ROOT-CAUSE FIX: these resets used to be unlayered CSS, which always beats Tailwind's
+   layered utilities - so every <button> lost its padding, border and font classes
+   (the Menu button's "+" sat flush against the screen edge). In @layer base they lose. */
+@layer base {
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  button {
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: 0;
+    padding: 0;
+  }
+}
+
+.container {
+  width: min(calc(100% - var(--page-padding) * 2), var(--content-width));
+  margin-inline: auto;
+}
+
+section[id] {
+  scroll-margin-top: 56px; /* fixed nav height */
+}
+
+::selection {
+  background: #000;
+  color: #fff;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: -4px;
+}
+
+/* custom cursor replaces the native one */
+html.has-cursor,
+html.has-cursor * {
+  cursor: none !important;
+}
+
+/* marquee */
+.marquee {
+  display: flex;
+  overflow: hidden;
+  user-select: none;
+}
+.marquee-track {
+  display: flex;
+  flex-shrink: 0;
+  min-width: 100%;
+  justify-content: space-around;
+  animation: marquee 22s linear infinite;
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-100%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}
+
+/* ---- hover fill: black wipes up from the bottom, text flips to white ---- */
+.fill {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transition: color 0.2s ease 0.16s;
+}
+.fill::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: #000;
+  transform: scaleY(0);
+  transform-origin: 50% var(--o, 100%);
+  transition: transform 0.5s cubic-bezier(0.7, 0, 0.2, 1);
+}
+@media (hover: hover) {
+  .fill:hover {
+    color: #fff;
+  }
+  .fill:hover::before {
+    transform: scaleY(1);
+  }
+}
+.fill:active {
+  color: #fff;
+}
+.fill:active::before {
+  transform: scaleY(1);
+}
+/* for links sitting on black backgrounds */
+.fill-dark::before {
+  background: #fff;
+}
+@media (hover: hover) {
+  .fill-dark:hover {
+    color: #000;
+  }
+}
+.fill-dark:active {
+  color: #000;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+.blink {
+  animation: blink 1.2s steps(1) infinite;
+}
+
+/* ---- outlined type + menu dimming ---- */
+.outline {
+  color: transparent;
+  -webkit-text-stroke: 2px #000;
+}
+.menu-list:hover .menu-link:not(:hover) {
+  opacity: 0.2;
+}
+.menu-link {
+  transition: opacity 0.3s ease;
+}
+
+/* ---- lenis (smooth scroll) ---- */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* ---- per-letter roll (see Roll.jsx) ---- */
+.roll {
+  display: inline-flex;
+  overflow: hidden;
+  /* negative tracking pulls the last letter's box in; room on the sides stops it being clipped */
+  padding-inline: 0.04em 0.14em;
+  margin-inline: -0.04em -0.14em;
+}
+.roll-loose {
+  line-height: 1.14;
+  margin-block: -0.12em;
+}
+.roll-c {
+  position: relative;
+  display: inline-block;
+  white-space: pre;
+}
+.roll-a,
+.roll-b {
+  display: block;
+  backface-visibility: hidden;
+  transition: transform 0.65s cubic-bezier(0.7, 0, 0.2, 1) var(--d, 0ms);
+}
+.roll-b {
+  position: absolute;
+  left: 0;
+  top: calc(100% + 2px);
+}
+@media (hover: hover) {
+  .group:hover .roll-a,
+  .group:hover .roll-b {
+    transform: translate3d(0, calc(-100% - 2px), 0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .roll-a, .roll-b { transition: none; }
+}
+
+/* ---- buttons: fixed height + line-height 1 = text and icon sit dead centre ---- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  height: 2.75rem;
+  padding: 0 1.25rem;
+  border: 2px solid #000;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+/* ---- thin square scrollbar, no layout jump when the menu locks scrolling ---- */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #000 #fff;
+  scrollbar-gutter: stable;
+}
+::-webkit-scrollbar {
+  width: 10px;
+  background: #fff;
+}
+::-webkit-scrollbar-thumb {
+  background: #000;
+}
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- touch polish ---- */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+a,
+button {
+  touch-action: manipulation;
+}
+
+/* ---- underline that draws out to the right and back in from the left ---- */
+.u {
+  background: linear-gradient(currentColor, currentColor) 0 100% / 100% 0.045em no-repeat;
+}
+@media (hover: hover) {
+  .u:hover {
+    animation: uline 0.9s cubic-bezier(0.7, 0, 0.2, 1);
+  }
+}
+@keyframes uline {
+  0% { background-position: 100% 100%; background-size: 100% 0.045em; }
+  50% { background-position: 100% 100%; background-size: 0 0.045em; }
+  50.01% { background-position: 0 100%; background-size: 0 0.045em; }
+  100% { background-position: 0 100%; background-size: 100% 0.045em; }
+}
+
+/* ---- hero entrance: pure CSS, so the text can never get stuck hidden ----
+   'both' = hidden during the delay, guaranteed visible once it ends. */
+@keyframes rise {
+  from { transform: translateY(110%); }
+  to { transform: none; }
+}
+@keyframes fadeup {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+.rise {
+  animation: rise 1.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--delay, 2.3s);
+}
+.fadeup {
+  animation: fadeup 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--delay, 3s);
+}
+@media (prefers-reduced-motion: reduce) {
+  .rise, .fadeup { animation: none; }
+}
+
+/* ---- expandable rows (Rows.jsx) ---- */
+li[data-open='true'] > .fill {
+  color: #fff;
+}
+li[data-open='true'] > .fill::before {
+  transform: scaleY(1);
+}
+.rv {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.35s ease, transform 0.45s cubic-bezier(0.7, 0, 0.2, 1);
+}
+li[data-open='true'] .rv {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.8s ease calc(280ms + var(--i, 0) * 90ms),
+    transform 0.95s cubic-bezier(0.16, 1, 0.3, 1) calc(280ms + var(--i, 0) * 90ms);
+}
+
+.rise-fast {
+  animation: rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ───────────── small screens: same look, thumb-friendly ─────────────
+   bottom tab bar replaces most top-nav use, rows get bigger tap targets,
+   the hero grid gets finer. Components add their own mobile layouts with md: classes. */
+@media (max-width: 767px) {
+  :root {
+    --cell: 52px;
+    --page-padding: 1.125rem;
+  }
+  #page {
+    padding-bottom: calc(var(--tabs-h) + env(safe-area-inset-bottom));
+  }
+  html {
+    scrollbar-gutter: auto;
+  }
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  .btn {
+    height: 3rem;
+  }
+}
