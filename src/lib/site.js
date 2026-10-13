@@ -14,14 +14,12 @@ export const site = {
   nav: [
     { label: 'Home', to: '/', key: 'h' },
     { label: 'Work', to: '/#work', key: 'w' },
-    { label: 'Features', to: '/features', key: 'f' },
     { label: 'Contact', to: '/#contact', key: 'c' },
   ],
   menu: { open: 'Menu', close: 'Close' },
 
   hero: {
     lines: ['I design & build', 'immersive digital', 'experiences.'],
-    strip: ['Portfolio', '2026', 'Scroll'],
     intro: 'Independent designer & developer. Interfaces that are minimal on purpose, with motion that earns its place.',
   },
 

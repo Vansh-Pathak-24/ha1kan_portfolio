@@ -3,7 +3,6 @@ import gsap from 'gsap'
 import { SCRUB } from '../lib/lenis'
 import { site } from '../lib/site'
 import Liquid from './Liquid'
-import { Arrow } from './Icons'
 
 const gridStyle = {
   backgroundImage:
@@ -49,17 +48,6 @@ const Hero = () => {
         </div>
 
         <Liquid />
-      </div>
-
-      <div className="hidden border-t-2 border-black bg-white md:block">
-        <div className="container flex font-mono text-xs uppercase leading-none">
-          {site.hero.strip.map((s, i) => (
-            <span key={s} className={`flex items-center gap-3 py-3 pr-5 ${i ? 'border-l-2 border-black pl-5' : ''}`}>
-              {s}
-              {i === site.hero.strip.length - 1 && <Arrow dir="s" />}
-            </span>
-          ))}
-        </div>
       </div>
     </section>
   )

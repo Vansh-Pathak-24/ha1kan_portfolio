@@ -9,7 +9,6 @@ import Preloader from './components/Preloader'
 import MobileTabs from './components/MobileTabs'
 import Transition from './components/Transition'
 import LandingPage from './sections/LandingPage'
-import Features from './pages/Features'
 
 const App = () => {
   const { pathname, hash } = useLocation()
@@ -39,7 +38,6 @@ const App = () => {
       <div id="page">
         <Routes>
           <Route path="/" element={<LandingPage />} />
-          <Route path="/features" element={<Features />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>
