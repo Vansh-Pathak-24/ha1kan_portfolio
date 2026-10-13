@@ -1,4 +1,3 @@
-// crisp square-capped icons that line up with the mono labels (no font glyph drift)
 export const Arrow = ({ dir = 'ne', className = '' }) => (
   <svg
     viewBox="0 0 12 12"
@@ -18,7 +17,6 @@ export const Arrow = ({ dir = 'ne', className = '' }) => (
   </svg>
 )
 
-// plus that turns into a cross
 export const Plus = ({ open = false }) => (
   <span
     aria-hidden="true"

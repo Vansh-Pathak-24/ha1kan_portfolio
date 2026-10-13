@@ -10,14 +10,10 @@ const gridStyle = {
   backgroundSize: 'var(--cell) var(--cell)',
 }
 
-// The entrance is pure CSS (.rise / .fadeup in index.css): it waits out the preloader
-// (~2.3s on first load, ~0.5s when you come back from another page) and always ends
-// visible. Text is plain black; the ink canvas sits on top and inverts what it covers.
 const Hero = () => {
   const root = useRef(null)
   const base = useRef(window.__loaded ? 0.5 : 2.3).current
 
-  // scroll away: headline and intro drift at different speeds
   useEffect(() => {
     const ctx = gsap.context(() => {
       const st = { trigger: root.current, start: 'top top', end: 'bottom top', scrub: SCRUB }

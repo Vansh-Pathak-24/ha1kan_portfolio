@@ -1,12 +1,10 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { lenis } from '../lib/lenis'
 
 const BARS = 6
 
-// One signature page transition: six hard black bars sweep up and over, the old page
-// tilts back under them, the route swaps, the bars continue off the top and the new
-// page unfolds into place. Same motion every time = a consistent design language.
 const Transition = () => {
   const root = useRef(null)
   const bars = useRef(null)
@@ -23,12 +21,14 @@ const Transition = () => {
       const cols = bars.current.children
       label.current.textContent = text
       gsap.set(root.current, { visibility: 'visible', pointerEvents: 'auto' })
+      lenis.stop()
 
       const tl = gsap.timeline({
         onComplete: () => {
           gsap.set(root.current, { visibility: 'hidden', pointerEvents: 'none' })
           gsap.set(page, { clearProps: 'transform' })
-          ScrollTrigger.refresh() // positions were measured while the page was offset
+          ScrollTrigger.refresh()
+          lenis.start()
           busy = false
         },
       })
@@ -41,7 +41,7 @@ const Transition = () => {
       )
       tl.fromTo(label.current, { yPercent: 110 }, { yPercent: 0, duration: 0.8, ease: 'expo.out' }, '>-0.3')
 
-      tl.add(swap) // route changes while fully covered
+      tl.add(swap)
       tl.set(page, { y: '12vh', scale: 0.92, rotateX: -6 })
 
       tl.to(label.current, { yPercent: -110, duration: 0.5, ease: 'expo.in' }, '+=0.3')

@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Routes, Route, useLocation } from 'react-router-dom'
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { lenis, NAV_H, markLoaded } from './lib/lenis'
 import { site } from './lib/site'
@@ -18,15 +18,13 @@ const App = () => {
     document.title = site.title
   }, [])
 
-  // if the Preloader is ever removed, don't leave the hero waiting for it
   useEffect(() => {
     if (!document.querySelector('[data-preloader]')) markLoaded()
   }, [])
 
-  // after every route change: jump to the right place (top, or #section), then re-measure
   useEffect(() => {
     const el = hash && document.querySelector(hash)
-    if (el) lenis.scrollTo(el, { offset: -NAV_H, immediate: true })
+    if (el) lenis.scrollTo(el, { offset: -NAV_H, immediate: true, force: true })
     else lenis.scrollTo(0, { immediate: true, force: true })
     ScrollTrigger.refresh()
   }, [pathname, hash])
@@ -42,6 +40,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/features" element={<Features />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>
     </>

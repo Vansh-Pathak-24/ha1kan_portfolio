@@ -1,7 +1,9 @@
-// just a hard rule with a name
-const SectionHead = ({ title, dark }) => (
+const SectionHead = ({ title, meta, dark }) => (
   <div className={`border-b-2 ${dark ? 'border-white' : 'border-black'}`}>
-    <div className="container py-3 font-mono text-xs uppercase">{title}</div>
+    <div className="container flex items-center justify-between py-3 font-mono text-xs uppercase">
+      <span>{title}</span>
+      {meta && <span className="tnum">{meta}</span>}
+    </div>
   </div>
 )
 

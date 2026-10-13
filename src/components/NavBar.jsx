@@ -3,7 +3,8 @@ import { useLocation } from 'react-router-dom'
 import gsap from 'gsap'
 import { lenis, SCRUB } from '../lib/lenis'
 import { site } from '../lib/site'
-import TLink, { useGo } from './TLink'
+import { useGo } from '../lib/useGo'
+import TLink from './TLink'
 import Magnetic from './Magnetic'
 import Roll from './Roll'
 import { Plus } from './Icons'
@@ -19,21 +20,17 @@ const Navbar = () => {
   const { pathname } = useLocation()
   const go = useGo()
 
-  // Lenis.start() cancels any scroll already in progress, so the menu must resume
-  // scrolling BEFORE a link triggers its own scroll.
   const closeMenu = () => {
     setOpen(false)
     lenis.start()
   }
 
-  // scroll progress drawn along the bottom edge of the bar; the bar tucks away
-  // while scrolling down and returns on scroll up
   useEffect(() => {
-    const prog = gsap.to(bar.current, {
-      scaleX: 1,
-      ease: 'none',
-      scrollTrigger: { start: 0, end: 'max', scrub: SCRUB },
-    })
+    const prog = gsap.fromTo(
+      bar.current,
+      { scaleX: 0 },
+      { scaleX: 1, ease: 'none', scrollTrigger: { start: 0, end: 'max', scrub: SCRUB } }
+    )
     const onScroll = (l) => {
       if (openRef.current || !l.direction) return
       const hide = l.direction === 1 && l.scroll > 240
@@ -49,7 +46,6 @@ const Navbar = () => {
     }
   }, [])
 
-  // fullscreen menu: clip wipe down, links rise in one by one
   useEffect(() => {
     openRef.current = open
     if (first.current) {
@@ -81,7 +77,6 @@ const Navbar = () => {
     }
   }, [open])
 
-  // keyboard: M menu, Esc close, plus each nav item's key
   useEffect(() => {
     const onKey = (e) => {
       if (!window.__loaded || e.metaKey || e.ctrlKey || e.altKey) return

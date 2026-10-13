@@ -1,15 +1,9 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 
-const SCALE = 4 // canvas is 1/4 size and stretched up: cheap, and the goo filter hides it
+const SCALE = 4
 const rnd = (a, b) => a + Math.random() * (b - a)
 
-// Liquid ink, restrained.
-//  - white ink on a transparent canvas, sitting ABOVE the hero with mix-blend-difference:
-//    it inverts whatever is under it (black text -> white, white page -> black).
-//    The text itself is plain black, so it stays readable even if blending ever fails.
-//  - blur + alpha threshold (SVG goo filter) merges the dots into hard-edged liquid.
-//  - splatter is deliberately small: a few satellite droplets on fast moves / clicks.
 const Liquid = () => {
   const ref = useRef(null)
 
@@ -30,6 +24,7 @@ const Liquid = () => {
     let amb = 0
     let nextSplat = 1500
     let cooldown = 0
+    let cleared = false
 
     const size = () => {
       const r = p.getBoundingClientRect()
@@ -51,7 +46,6 @@ const Liquid = () => {
       }
     }
     const drop = (x, y, vx, vy, r, shr = 0.4, drag = 0.02) => drops.push({ x, y, vx, vy, r, shr, drag })
-    // small, controlled splat: one core that settles + a few satellites
     const splat = (x, y, n = 6, power = 1) => {
       drop(x, y, 0, 0, 11 * power, 0.14)
       for (let i = 0; i < n; i++) {
@@ -78,18 +72,25 @@ const Liquid = () => {
     const leave = () => (ptr.in = false)
     const intro = () => splat(w * 0.72, h * 0.42, 10, 1)
     let t1
+    const onLoaded = () => (t1 = setTimeout(intro, 500))
     if (window.__loaded) t1 = setTimeout(intro, 300)
-    else window.addEventListener('loaded', () => (t1 = setTimeout(intro, 500)), { once: true })
+    else window.addEventListener('loaded', onLoaded, { once: true })
 
     const tick = (_t, raw) => {
       if (!visible) return
       const dt = Math.min(raw, 50)
       if (drops.length) idle = 0
       idle += dt
-      if (idle > 2600) return // everything faded: stop drawing entirely
+      if (idle > 2600) {
+        if (!cleared) {
+          ctx.clearRect(0, 0, w, h)
+          cleared = true
+        }
+        return
+      }
+      cleared = false
       cooldown -= dt
 
-      // fade the ink away (time-based, identical at 60/144Hz)
       ctx.globalCompositeOperation = 'destination-out'
       ctx.fillStyle = `rgba(0,0,0,${1 - Math.pow(0.93, dt / 16.7)})`
       ctx.fillRect(0, 0, w, h)
@@ -125,14 +126,13 @@ const Liquid = () => {
         }
         const px = cur.x
         const py = cur.y
-        const k = 1 - Math.pow(1e-8, dt / 1000) // ~55ms lag: the blob stays right under the cursor
+        const k = 1 - Math.pow(1e-8, dt / 1000)
         cur.x += (tx - px) * k
         cur.y += (ty - py) * k
         const dx = cur.x - px
         const dy = cur.y - py
         const dist = Math.hypot(dx, dy)
-        line(px, py, cur.x, cur.y, (coarse ? 8 : 9) + Math.min(dist * 0.8, 13))
-        // only fast flicks shed a droplet, at most one every ~110ms
+        if (dist > 0.05) line(px, py, cur.x, cur.y, (coarse ? 8 : 9) + Math.min(dist * 0.8, 13))
         if (dist > 4 && cooldown <= 0) {
           cooldown = 70
           const vx = dx / dt
@@ -163,13 +163,14 @@ const Liquid = () => {
 
     window.addEventListener('pointermove', move, { passive: true })
     window.addEventListener('pointerdown', down, { passive: true })
-    document.addEventListener('pointerleave', leave)
+    document.documentElement.addEventListener('mouseleave', leave)
     gsap.ticker.add(tick)
     return () => {
       clearTimeout(t1)
       window.removeEventListener('pointermove', move)
       window.removeEventListener('pointerdown', down)
-      document.removeEventListener('pointerleave', leave)
+      document.documentElement.removeEventListener('mouseleave', leave)
+      window.removeEventListener('loaded', onLoaded)
       gsap.ticker.remove(tick)
       ro.disconnect()
       io.disconnect()

@@ -10,16 +10,11 @@ import { Arrow, Plus } from './Icons'
 gsap.registerPlugin(ScrollTrigger)
 const L = site.labels
 
-// Item fields:  title, meta, year            -> the row
-//               desc, skills[], href | to    -> makes the row expandable (click to open)
-//               cursor                       -> label shown inside the cursor ring
-// Rows with `to`/`href` and no `desc` are plain links.
 const Rows = ({ items }) => {
   const ul = useRef(null)
   const timer = useRef(0)
   const [open, setOpen] = useState(-1)
 
-  // titles rise into view as you scroll (works from either direction)
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.utils.toArray('.row-title').forEach((el) => {
@@ -49,13 +44,11 @@ const Rows = ({ items }) => {
     const li = ul.current.children[i]
     const next = open === i ? -1 : i
     if (next !== -1) {
-      // an open row ABOVE this one is about to collapse: account for its height
       const prev = open !== -1 && open < i ? ul.current.children[open].querySelector('[data-inner]') : null
       const y = li.getBoundingClientRect().top + window.scrollY - (prev ? prev.scrollHeight : 0) - NAV_H - 16
       scrollToTarget(Math.max(0, y), { offset: 0, duration: 1.2 })
     }
     setOpen(next)
-    // page height changed: re-measure scroll animations once the motion settles
     clearTimeout(timer.current)
     timer.current = setTimeout(() => ScrollTrigger.refresh(), 950)
   }

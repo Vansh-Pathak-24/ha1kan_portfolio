@@ -3,7 +3,6 @@ import Warp from '../components/Warp'
 import Rows from '../components/Rows'
 import Parallax from '../components/Parallax'
 
-// all content comes from src/lib/site.js
 const { title, intro, items, back } = site.features
 
 const Features = () => (

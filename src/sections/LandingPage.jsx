@@ -8,7 +8,6 @@ import About from './About'
 import BigType from './BigType'
 import Contact from './Contact'
 
-// all content comes from src/lib/site.js
 const LandingPage = () => (
   <main>
     <ScrollNav />
@@ -21,7 +20,7 @@ const LandingPage = () => (
     </Depth>
     <Depth>
       <section id="work">
-        <SectionHead title={site.work.label} />
+        <SectionHead title={site.work.label} meta={`(${String(site.work.items.length).padStart(2, '0')})`} />
         <Rows items={site.work.items} />
       </section>
     </Depth>

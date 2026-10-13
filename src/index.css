@@ -47,9 +47,6 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ROOT-CAUSE FIX: these resets used to be unlayered CSS, which always beats Tailwind's
-   layered utilities - so every <button> lost its padding, border and font classes
-   (the Menu button's "+" sat flush against the screen edge). In @layer base they lose. */
 @layer base {
   a {
     color: inherit;
@@ -70,7 +67,7 @@ body {
 }
 
 section[id] {
-  scroll-margin-top: 56px; /* fixed nav height */
+  scroll-margin-top: 56px;
 }
 
 ::selection {
@@ -80,41 +77,15 @@ section[id] {
 
 a:focus-visible,
 button:focus-visible {
-  outline: 2px solid currentColor;
+  outline: 3px solid currentColor;
   outline-offset: -4px;
 }
 
-/* custom cursor replaces the native one */
 html.has-cursor,
 html.has-cursor * {
   cursor: none !important;
 }
 
-/* marquee */
-.marquee {
-  display: flex;
-  overflow: hidden;
-  user-select: none;
-}
-.marquee-track {
-  display: flex;
-  flex-shrink: 0;
-  min-width: 100%;
-  justify-content: space-around;
-  animation: marquee 22s linear infinite;
-}
-@keyframes marquee {
-  to {
-    transform: translateX(-100%);
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .marquee-track {
-    animation: none;
-  }
-}
-
-/* ---- hover fill: black wipes up from the bottom, text flips to white ---- */
 .fill {
   position: relative;
   overflow: hidden;
@@ -145,7 +116,6 @@ html.has-cursor * {
 .fill:active::before {
   transform: scaleY(1);
 }
-/* for links sitting on black backgrounds */
 .fill-dark::before {
   background: #fff;
 }
@@ -158,17 +128,7 @@ html.has-cursor * {
   color: #000;
 }
 
-@keyframes blink {
-  50% {
-    opacity: 0;
-  }
-}
-.blink {
-  animation: blink 1.2s steps(1) infinite;
-}
-
-/* ---- outlined type + menu dimming ---- */
-.outline {
+.type-outline {
   color: transparent;
   -webkit-text-stroke: 2px #000;
 }
@@ -179,7 +139,6 @@ html.has-cursor * {
   transition: opacity 0.3s ease;
 }
 
-/* ---- lenis (smooth scroll) ---- */
 html.lenis,
 html.lenis body {
   height: auto;
@@ -194,11 +153,9 @@ html.lenis body {
   pointer-events: none;
 }
 
-/* ---- per-letter roll (see Roll.jsx) ---- */
 .roll {
   display: inline-flex;
   overflow: hidden;
-  /* negative tracking pulls the last letter's box in; room on the sides stops it being clipped */
   padding-inline: 0.04em 0.14em;
   margin-inline: -0.04em -0.14em;
 }
@@ -232,7 +189,6 @@ html.lenis body {
   .roll-a, .roll-b { transition: none; }
 }
 
-/* ---- buttons: fixed height + line-height 1 = text and icon sit dead centre ---- */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -247,7 +203,6 @@ html.lenis body {
   text-transform: uppercase;
 }
 
-/* ---- thin square scrollbar, no layout jump when the menu locks scrolling ---- */
 html {
   scrollbar-width: thin;
   scrollbar-color: #000 #fff;
@@ -264,7 +219,6 @@ html {
   font-variant-numeric: tabular-nums;
 }
 
-/* ---- touch polish ---- */
 * {
   -webkit-tap-highlight-color: transparent;
 }
@@ -273,24 +227,6 @@ button {
   touch-action: manipulation;
 }
 
-/* ---- underline that draws out to the right and back in from the left ---- */
-.u {
-  background: linear-gradient(currentColor, currentColor) 0 100% / 100% 0.045em no-repeat;
-}
-@media (hover: hover) {
-  .u:hover {
-    animation: uline 0.9s cubic-bezier(0.7, 0, 0.2, 1);
-  }
-}
-@keyframes uline {
-  0% { background-position: 100% 100%; background-size: 100% 0.045em; }
-  50% { background-position: 100% 100%; background-size: 0 0.045em; }
-  50.01% { background-position: 0 100%; background-size: 0 0.045em; }
-  100% { background-position: 0 100%; background-size: 100% 0.045em; }
-}
-
-/* ---- hero entrance: pure CSS, so the text can never get stuck hidden ----
-   'both' = hidden during the delay, guaranteed visible once it ends. */
 @keyframes rise {
   from { transform: translateY(110%); }
   to { transform: none; }
@@ -311,7 +247,6 @@ button {
   .rise, .fadeup { animation: none; }
 }
 
-/* ---- expandable rows (Rows.jsx) ---- */
 li[data-open='true'] > .fill {
   color: #fff;
 }
@@ -334,9 +269,6 @@ li[data-open='true'] .rv {
   animation: rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-/* ───────────── small screens: same look, thumb-friendly ─────────────
-   bottom tab bar replaces most top-nav use, rows get bigger tap targets,
-   the hero grid gets finer. Components add their own mobile layouts with md: classes. */
 @media (max-width: 767px) {
   :root {
     --cell: 52px;

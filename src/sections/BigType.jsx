@@ -9,7 +9,6 @@ gsap.registerPlugin(ScrollTrigger)
 const row = (site.band.words.join(' — ') + ' — ').repeat(3)
 const cls = 'whitespace-nowrap text-[clamp(4.5rem,15vw,16rem)] font-medium leading-[0.85] tracking-[-0.07em]'
 
-// two giant lines slide in opposite directions as you scroll past
 const BigType = () => {
   const root = useRef(null)
 
@@ -25,7 +24,7 @@ const BigType = () => {
   return (
     <section ref={root} className="relative overflow-hidden border-y-2 border-black bg-white py-6 md:py-10">
       <div className={`bt-a will-change-transform ${cls}`}>{row}</div>
-      <div className={`bt-b will-change-transform outline ${cls}`}>{row}</div>
+      <div className={`bt-b will-change-transform type-outline ${cls}`}>{row}</div>
     </section>
   )
 }

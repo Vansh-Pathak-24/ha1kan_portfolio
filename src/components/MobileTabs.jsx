@@ -6,8 +6,6 @@ import TLink from './TLink'
 const ids = site.sections.map((s) => s.id)
 const sectionOf = (to) => (to === '/' ? 'top' : to.startsWith('/#') ? to.slice(2) : null)
 
-// Phones: a fixed bottom tab bar (thumb reach) built from site.nav. A black block slides
-// to the tab for the section you are reading, so it doubles as scroll navigation.
 const MobileTabs = () => {
   const { pathname } = useLocation()
   const home = pathname === '/'

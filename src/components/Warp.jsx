@@ -1,10 +1,9 @@
 import { useEffect, useRef, useId } from 'react'
 import gsap from 'gsap'
 
-const R = 170 // lens radius (px)
-const STRENGTH = -80 // negative = bulge, positive = pinch
+const R = 170
+const STRENGTH = -80
 
-// radial displacement map: R/G channels = push direction, fades to neutral grey at the edge
 const makeMap = () => {
   const s = R * 2
   const c = document.createElement('canvas')
@@ -28,9 +27,8 @@ const makeMap = () => {
   return c.toDataURL()
 }
 
-// Wrap anything in <Warp> and the cursor bends it while hovering.
 const Warp = ({ children, className = '', style }) => {
-  const id = 'warp' + useId().replace(/:/g, '')
+  const id = 'warp' + useId().replace(/[^a-zA-Z0-9_-]/g, '')
   const wrap = useRef(null)
   const lens = useRef(null)
   const disp = useRef(null)
@@ -54,7 +52,6 @@ const Warp = ({ children, className = '', style }) => {
       const r = el.getBoundingClientRect()
       const x = Math.round(m.x - r.left - R)
       const y = Math.round(m.y - r.top - R)
-      // re-running the SVG filter is the expensive part: only do it when the lens moved
       if (x === lx && y === ly) return
       lx = x
       ly = y
@@ -69,7 +66,7 @@ const Warp = ({ children, className = '', style }) => {
       m.x = m.tx = e.clientX
       m.y = m.ty = e.clientY
       el.style.filter = `url(#${id})`
-      gsap.killTweensOf(disp.current) // cancel a leave animation still running
+      gsap.killTweensOf(disp.current)
       gsap.ticker.remove(tick)
       gsap.ticker.add(tick)
       gsap.to(disp.current, { attr: { scale: STRENGTH }, duration: 0.7, ease: 'power3.out' })

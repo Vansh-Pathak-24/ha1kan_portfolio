@@ -2,8 +2,6 @@ import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { SCRUB } from '../lib/lenis'
 
-// Moves its content against the scroll. Outer div is the trigger (never moves),
-// inner div is what travels. speed 0.1 ~ 10% of the viewport height each way.
 const Parallax = ({ children, speed = 0.1, className = '' }) => {
   const outer = useRef(null)
   const inner = useRef(null)

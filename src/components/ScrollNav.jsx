@@ -7,9 +7,6 @@ import { Arrow } from './Icons'
 const ids = site.sections.map((s) => s.id)
 const L = site.labels
 
-// Desktop scroll navigation: a small boxed readout (01/04 + section name that swaps as
-// you scroll) with a button that glides to the next section, and to the top at the end.
-// On phones the bottom tab bar does this job instead.
 const ScrollNav = () => {
   const active = useSection(ids)
   const i = Math.max(0, ids.indexOf(active))

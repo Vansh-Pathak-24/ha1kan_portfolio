@@ -1,20 +1,5 @@
-import { Link, useNavigate, useLocation } from 'react-router-dom'
-import { scrollToTarget } from '../lib/lenis'
-
-// go(to, label): same-page targets just smooth-scroll (no #hash in the URL),
-// other pages play the black wipe
-export const useGo = () => {
-  const navigate = useNavigate()
-  const loc = useLocation()
-  return (to, label) => {
-    const [path, hash = ''] = to.split('#')
-    if ((path || '/') === loc.pathname) {
-      scrollToTarget((hash && document.getElementById(hash)) || 0)
-      return
-    }
-    window.__wipe(label || to, () => navigate(to), path || '/')
-  }
-}
+import { Link } from 'react-router-dom'
+import { useGo } from '../lib/useGo'
 
 const TLink = ({ to, label, onClick, children, ...rest }) => {
   const go = useGo()

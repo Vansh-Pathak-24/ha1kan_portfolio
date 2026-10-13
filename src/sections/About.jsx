@@ -6,12 +6,11 @@ import { site } from '../lib/site'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const { text, highlight } = site.about // words in `highlight` get underlined
+const { text, highlight } = site.about
 
 const About = () => {
   const p = useRef(null)
 
-  // words light up as you scroll
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.to('.word', {

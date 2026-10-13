@@ -1,11 +1,6 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 
-// Inverting square cursor.
-//  - over links: opens into a hollow ring (text underneath stays readable)
-//  - over [data-cursor="View"]: bigger ring with a label inside
-//  - also sets the entry/exit side for .fill hovers, so the black wipe comes in
-//    from the edge your pointer entered and leaves through the edge it exited
 const Cursor = () => {
   const pos = useRef(null)
   const dot = useRef(null)
@@ -23,10 +18,15 @@ const Cursor = () => {
     const move = (e) => {
       if (!shown) {
         shown = true
-        pos.current.style.opacity = 1
+        gsap.to(pos.current, { opacity: 1, duration: 0.2, overwrite: 'auto' })
       }
       x(e.clientX)
       y(e.clientY)
+    }
+
+    const leave = () => {
+      shown = false
+      gsap.to(pos.current, { opacity: 0, duration: 0.2, overwrite: 'auto' })
     }
 
     let last = null
@@ -64,6 +64,7 @@ const Cursor = () => {
     window.addEventListener('mousemove', move, { passive: true })
     window.addEventListener('mouseover', over)
     window.addEventListener('click', click)
+    document.documentElement.addEventListener('mouseleave', leave)
     document.addEventListener('pointerover', side)
     document.addEventListener('pointerout', side)
     return () => {
@@ -71,6 +72,7 @@ const Cursor = () => {
       window.removeEventListener('mousemove', move)
       window.removeEventListener('mouseover', over)
       window.removeEventListener('click', click)
+      document.documentElement.removeEventListener('mouseleave', leave)
       document.removeEventListener('pointerover', side)
       document.removeEventListener('pointerout', side)
     }

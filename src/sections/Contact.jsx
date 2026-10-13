@@ -10,13 +10,9 @@ import { Arrow } from '../components/Icons'
 gsap.registerPlugin(ScrollTrigger)
 const C = site.contact
 
-// Brutalist contact: the email is one giant full-width block between two hard rules.
-// Hover = white wipe + text flips to black (no underline). Socials are bordered cells
-// that line up with the page grid.
 const Contact = () => {
   const mark = useRef(null)
 
-  // wordmark letters rise in one by one
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from('.letter', {

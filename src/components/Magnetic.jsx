@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 
-// element leans toward the cursor and snaps back with elastic
 const Magnetic = ({ children, strength = 0.3, className = '' }) => {
   const ref = useRef(null)
 

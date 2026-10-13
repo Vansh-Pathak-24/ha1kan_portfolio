@@ -3,7 +3,6 @@ import gsap from 'gsap'
 import { lenis, markLoaded } from '../lib/lenis'
 import { site } from '../lib/site'
 
-// black counter screen that wipes up, then tells the hero to start
 const Preloader = () => {
   const root = useRef(null)
   const num = useRef(null)
