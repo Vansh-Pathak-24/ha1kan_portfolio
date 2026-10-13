@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
+import { lenis } from '../lib/lenis'
 import { site } from '../lib/site'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -18,7 +19,21 @@ const BigType = () => {
       gsap.fromTo('.bt-a', { xPercent: 0 }, { xPercent: -15, ease: 'none', scrollTrigger: st })
       gsap.fromTo('.bt-b', { xPercent: -15 }, { xPercent: 0, ease: 'none', scrollTrigger: st })
     }, root)
-    return () => ctx.revert()
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return () => ctx.revert()
+    const skew = [...root.current.children].map((el) => gsap.quickTo(el, 'skewX', { duration: 0.6, ease: 'power3' }))
+    let settle
+    const onScroll = ({ velocity }) => {
+      const v = gsap.utils.clamp(-9, 9, -velocity * 0.45)
+      skew.forEach((s) => s(v))
+      clearTimeout(settle)
+      settle = setTimeout(() => skew.forEach((s) => s(0)), 90)
+    }
+    lenis.on('scroll', onScroll)
+    return () => {
+      clearTimeout(settle)
+      lenis.off('scroll', onScroll)
+      ctx.revert()
+    }
   }, [])
 
   return (

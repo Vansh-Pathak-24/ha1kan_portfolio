@@ -204,16 +204,20 @@ html.lenis body {
 }
 
 html {
-  scrollbar-width: thin;
-  scrollbar-color: #000 #fff;
-  scrollbar-gutter: stable;
+  scrollbar-width: none;
 }
 ::-webkit-scrollbar {
-  width: 10px;
-  background: #fff;
+  display: none;
 }
-::-webkit-scrollbar-thumb {
-  background: #000;
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 250;
+  pointer-events: none;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .7 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 .tnum {
   font-variant-numeric: tabular-nums;
@@ -276,12 +280,6 @@ li[data-open='true'] .rv {
   }
   #page {
     padding-bottom: calc(var(--tabs-h) + env(safe-area-inset-bottom));
-  }
-  html {
-    scrollbar-gutter: auto;
-  }
-  ::-webkit-scrollbar {
-    display: none;
   }
   .btn {
     height: 3rem;

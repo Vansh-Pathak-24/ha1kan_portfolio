@@ -21,6 +21,7 @@ export const site = {
 
   hero: {
     lines: ['I design & build', 'immersive digital', 'experiences.'],
+    strip: ['Portfolio', '2026', 'Scroll'],
     intro: 'Independent designer & developer. Interfaces that are minimal on purpose, with motion that earns its place.',
   },
 
