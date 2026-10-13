@@ -107,7 +107,6 @@ export const site = {
     visit: 'Visit site',
     open: 'Open page',
     inProgress: 'In progress',
-    next: 'Next',
     top: 'Top',
   },
 }
