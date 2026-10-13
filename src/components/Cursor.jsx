@@ -82,7 +82,7 @@ const Cursor = () => {
     <div ref={pos} className="pointer-events-none fixed left-0 top-0 z-[300] opacity-0 mix-blend-difference">
       <div
         ref={dot}
-        className="relative h-3 w-3 -translate-x-1/2 -translate-y-1/2 border-2 border-white bg-white"
+        className="relative h-3 w-3 -translate-x-1/2 -translate-y-1/2 border-[3px] border-white bg-white"
       >
         <span
           ref={lab}

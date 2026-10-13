@@ -12,12 +12,12 @@ const Features = () => (
         <Parallax speed={0.08}>
           <h1 className="text-[clamp(3rem,17vw,18rem)] font-medium leading-[0.8] tracking-[-0.08em]">{title}</h1>
         </Parallax>
-        <p className="mt-10 max-w-[22rem] border-t-2 border-black pt-3 text-[clamp(0.95rem,1.3vw,1.25rem)] font-medium leading-[1.12] tracking-[-0.03em] md:ml-auto">
+        <p className="mt-10 max-w-[22rem] border-t-[3px] border-black pt-3 text-[clamp(0.95rem,1.3vw,1.25rem)] font-medium leading-[1.12] tracking-[-0.03em] md:ml-auto">
           {intro}
         </p>
       </div>
     </Warp>
-    <div className="border-t-2 border-black">
+    <div className="border-t-[3px] border-black">
       <Rows items={[...items, { ...back, year: '', to: '/' }]} />
     </div>
   </main>

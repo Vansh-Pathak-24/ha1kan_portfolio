@@ -64,11 +64,11 @@ const Rows = ({ items }) => {
           const cursor = isOpen ? L.close : it.cursor || (expandable ? L.view : undefined)
 
           const inner = (
-            <div className="container grid grid-cols-[2rem_1fr_auto] items-baseline gap-3 py-7 md:grid-cols-[4rem_1fr_16rem_6rem] md:gap-4 md:py-9">
-              <span className="font-mono text-xs">{String(i + 1).padStart(2, '0')}</span>
+            <div className="container grid grid-cols-[2.5rem_1fr_auto] items-baseline gap-3 py-7 md:grid-cols-[4rem_1fr_16rem_6rem] md:gap-4 md:py-9">
+              <span className="inline-flex size-8 items-center justify-center self-center border-[3px] border-current font-mono text-xs font-bold">{String(i + 1).padStart(2, '0')}</span>
               <span className="block min-w-0">
                 <span className="block overflow-hidden pb-[0.12em]">
-                  <span className="row-title block text-[clamp(2.1rem,7vw,7rem)] font-medium leading-[0.9] tracking-[-0.07em]">
+                  <span className="row-title block text-[clamp(2.1rem,7vw,7rem)] font-bold italic leading-[0.9] tracking-[-0.07em]">
                     <Roll step={14} loose>
                       {it.title}
                     </Roll>
@@ -149,7 +149,7 @@ const Rows = ({ items }) => {
             <li
               key={it.title}
               data-open={isOpen}
-              className="border-b-2 border-black"
+              className="border-b-[3px] border-black"
               onPointerEnter={(e) => it.skills && e.pointerType === 'mouse' && setPv({ i, on: true })}
               onPointerLeave={() => setPv((p) => ({ ...p, on: false }))}
             >

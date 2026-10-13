@@ -24,7 +24,7 @@ const Preview = ({ item, index, on }) => {
 
   useEffect(() => {
     gsap.to(box.current, {
-      clipPath: on ? 'inset(0% 0% 0% 0%)' : 'inset(0% 0% 100% 0%)',
+      clipPath: on ? 'inset(-12px -12px -12px -12px)' : 'inset(0px 0px 100% 0px)',
       duration: on ? 0.45 : 0.3,
       ease: 'expo.out',
       overwrite: 'auto',
@@ -35,16 +35,16 @@ const Preview = ({ item, index, on }) => {
     <div
       ref={box}
       aria-hidden="true"
-      className="pointer-events-none fixed left-0 top-0 z-[120] hidden w-64 border-2 border-black bg-white font-mono text-xs uppercase [@media(pointer:fine)]:block"
-      style={{ clipPath: 'inset(0% 0% 100% 0%)' }}
+      className="pointer-events-none fixed left-0 top-0 z-[120] hidden w-64 -rotate-2 border-[3px] border-black bg-white shadow-[6px_6px_0_#000] font-mono text-xs uppercase [@media(pointer:fine)]:block"
+      style={{ clipPath: 'inset(0px 0px 100% 0px)' }}
     >
       {item && (
         <>
-          <div className="flex justify-between border-b-2 border-black px-3 py-2">
+          <div className="flex justify-between border-b-[3px] border-black px-3 py-2">
             <span className="tnum">{String(index + 1).padStart(2, '0')}</span>
             <span>{item.year}</span>
           </div>
-          <div className="border-b-2 border-black px-3 py-4 font-sans text-2xl font-medium normal-case leading-[0.95] tracking-[-0.05em]">
+          <div className="border-b-[3px] border-black px-3 py-4 font-sans text-2xl font-medium normal-case leading-[0.95] tracking-[-0.05em]">
             {item.title}
           </div>
           <ul>

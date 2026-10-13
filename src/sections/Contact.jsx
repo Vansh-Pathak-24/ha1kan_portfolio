@@ -28,20 +28,23 @@ const Contact = () => {
 
   return (
     <section id="contact" className="relative z-10 bg-black text-white">
-      <SectionHead title={C.label} dark />
+      <SectionHead ch="02" title={C.label} dark />
 
-      <div className="container pb-12 pt-28 md:pb-16 md:pt-52">
-        {C.prompt && (
-          <p className="max-w-[22rem] border-t-2 border-white pt-3 text-[clamp(0.95rem,1.3vw,1.25rem)] font-medium leading-[1.12] tracking-[-0.03em]">
-            {C.prompt}
-          </p>
-        )}
+      <div className="relative overflow-hidden">
+        <div className="speed" />
+        <div className="container relative pb-12 pt-28 md:pb-16 md:pt-52">
+          {C.prompt && (
+            <p className="max-w-[22rem] border-[3px] border-white bg-black p-3 text-[clamp(0.95rem,1.3vw,1.25rem)] font-medium leading-[1.12] tracking-[-0.03em] shadow-[5px_5px_0_#fff]">
+              {C.prompt}
+            </p>
+          )}
+        </div>
       </div>
 
       <a
         href={`mailto:${site.email}`}
         data-cursor={C.cursor}
-        className="fill fill-dark group block border-y-2 border-white"
+        className="fill fill-dark group block border-y-[3px] border-white"
       >
         <div className="container flex items-center justify-between gap-4 py-7 md:gap-8 md:py-12">
           <span className="min-w-0 text-[clamp(1.75rem,8.4vw,9rem)] font-medium leading-[0.9] tracking-[-0.07em]">
@@ -62,7 +65,7 @@ const Contact = () => {
             href={s.href}
             target="_blank"
             rel="noreferrer"
-            className="fill fill-dark group flex items-center justify-between border-b-2 border-white py-6 font-mono text-xs uppercase leading-none md:border-b-0 md:border-l-2 md:px-5 md:first:border-l-0 md:first:pl-0"
+            className="fill fill-dark group flex items-center justify-between border-b-[3px] border-white py-6 font-mono text-xs uppercase leading-none md:border-b-0 md:border-l-[3px] md:px-5 md:first:border-l-0 md:first:pl-0"
           >
             <Roll>{s.label}</Roll>
             <Arrow />
@@ -70,7 +73,7 @@ const Contact = () => {
         ))}
       </div>
 
-      <div className="container border-t-2 border-white pt-6">
+      <div className="container border-t-[3px] border-white pt-6">
         <div
           ref={mark}
           aria-label={site.name}
@@ -84,7 +87,7 @@ const Contact = () => {
         </div>
       </div>
 
-      <div className="border-t-2 border-white">
+      <div className="border-t-[3px] border-white">
         <div className="container flex items-center justify-between py-3 font-mono text-xs uppercase leading-none">
           <span>{site.footer.left}</span>
           <button onClick={() => scrollToTarget(0, { duration: 2 })} className="group inline-flex items-center gap-2 py-2">

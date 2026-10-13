@@ -16,7 +16,7 @@ const MobileTabs = () => {
 
   return (
     <nav
-      className="fixed inset-x-0 bottom-0 z-[80] border-t-2 border-black bg-white pb-[env(safe-area-inset-bottom)] md:hidden"
+      className="fixed inset-x-0 bottom-0 z-[80] border-t-[3px] border-black bg-white pb-[env(safe-area-inset-bottom)] md:hidden"
       aria-label="Primary"
     >
       <div className="relative grid" style={{ gridTemplateColumns: `repeat(${n}, 1fr)` }}>
@@ -32,7 +32,7 @@ const MobileTabs = () => {
             label={l.label}
             className={`relative flex h-14 items-center justify-center font-mono text-[11px] uppercase leading-none transition-colors duration-300 ${
               i === index ? 'text-white' : 'text-black'
-            } ${i < n - 1 ? 'border-r-2 border-black' : ''}`}
+            } ${i < n - 1 ? 'border-r-[3px] border-black' : ''}`}
           >
             {l.label}
           </TLink>

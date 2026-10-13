@@ -24,11 +24,15 @@ const About = () => {
   }, [])
 
   return (
-    <section id="about" className="container py-24 md:py-44">
-      <p
-        ref={p}
-        className="text-[clamp(1.85rem,4.7vw,5rem)] font-medium leading-[1] tracking-[-0.065em]"
-      >
+    <section id="about" className="container py-16 md:py-32">
+      <div className="relative border-[3px] border-black bg-white px-5 pb-8 pt-12 shadow-[8px_8px_0_#000] md:px-12 md:pb-14 md:pt-16">
+        <span className="absolute -left-[3px] -top-[3px] bg-black px-3 py-2 font-mono text-xs font-bold uppercase italic leading-none text-white">
+          About
+        </span>
+        <p
+          ref={p}
+          className="text-[clamp(1.85rem,4.7vw,5rem)] font-medium leading-[1] tracking-[-0.065em]"
+        >
         {text.split(' ').map((w, i) => {
           const key = w.toLowerCase().replace(/[^a-z]/g, '')
           const mark = highlight.includes(key)
@@ -36,14 +40,15 @@ const About = () => {
             <span
               key={i}
               className={`word mr-[0.22em] inline-block opacity-[0.12] ${
-                mark ? 'underline decoration-[0.05em] underline-offset-[0.12em]' : ''
+                mark ? 'bg-black px-[0.12em] text-white' : ''
               }`}
             >
               {w}
             </span>
           )
         })}
-      </p>
+        </p>
+      </div>
     </section>
   )
 }

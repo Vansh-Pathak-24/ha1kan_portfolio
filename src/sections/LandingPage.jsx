@@ -12,7 +12,7 @@ const LandingPage = () => (
     <About />
     <BigType />
     <section id="work">
-      <SectionHead title={site.work.label} meta={`(${String(site.work.items.length).padStart(2, '0')})`} />
+      <SectionHead ch="01" title={site.work.label} meta={`(${String(site.work.items.length).padStart(2, '0')})`} />
       <Rows items={site.work.items} />
     </section>
     <Contact />
